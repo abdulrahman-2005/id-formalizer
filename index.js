@@ -1,7 +1,7 @@
 const actionContainer = document.getElementById("action-container");
 const actionContainerHTML = actionContainer.innerHTML;
 const input = document.getElementById("id-digits");
-
+const finderJoke = document.getElementById("finder");
 const governorates = {
 	"01": "القاهرة",
 	"02": "الإسكندرية",
@@ -45,7 +45,6 @@ function fillTemplate(data) {
                 <div class="data"><span class="title">النوع</span><span>#GENDER</span></div>
                 <div class="data"><span class="title">المحافظة</span><span>#GOVERNORATE</span></div>
                 <div class="data"><span class="title">المولود رقم</span><span>#BIRTHNUMBER</span></div>
-                <div class="data"><span class="title">الرقم السري</span><span>#SECRETNUMBER</span></div>
                 <div class="data"><span class="title">الرقم القومي</span><span>#ID</span></div>
             </article>
 			`
@@ -53,7 +52,6 @@ function fillTemplate(data) {
 		.replace("#GENDER", data.gender)
 		.replace("#GOVERNORATE", data.governorate)
 		.replace("#BIRTHNUMBER", data.special)
-		.replace("#SECRETNUMBER", data.secret)
 		.replace("#ID", data.id);
 	return template;
 }
@@ -93,11 +91,13 @@ function submit(id_input = "") {
 			secret: secret,
 			id: id,
 		});
+		finderJoke.innerHTML = "بطاقة فايندر - بياناتك"
 	}, 2000);
 }
 
 function back() {
 	actionContainer.innerHTML = actionContainerHTML;
+	finderJoke.innerHTML = "بطاقة فايندر - هات رقمك"
 }
 
 function loading() {
@@ -105,4 +105,6 @@ function loading() {
 	جارى التحميل
 	<div class="lds-facebook"><div></div><div></div><div></div></div>
 	`;
+	
+	finderJoke.innerHTML = "بطاقة فايندر - استنى شوية"
 }
