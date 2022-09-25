@@ -45,14 +45,12 @@ function fillTemplate(data) {
                 <div class="data"><span class="title">النوع</span><span>#GENDER</span></div>
                 <div class="data"><span class="title">المحافظة</span><span>#GOVERNORATE</span></div>
                 <div class="data"><span class="title">المولود رقم</span><span>#BIRTHNUMBER</span></div>
-                <div class="data"><span class="title">الرقم القومي</span><span>#ID</span></div>
             </article>
 			`
 		.replace("#DATEOFBIRTH", data.dayOfBirth)
 		.replace("#GENDER", data.gender)
 		.replace("#GOVERNORATE", data.governorate)
 		.replace("#BIRTHNUMBER", data.special)
-		.replace("#ID", data.id);
 	return template;
 }
 
