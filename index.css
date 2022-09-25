@@ -113,3 +113,29 @@ button {
 	--switch-color: var(--primary-inverse);
 	--switch-checked-background-color: var(--primary);
 }
+
+
+@media screen and (max-width: 460px) {
+    
+#id-digits,
+button {
+	width: 90%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+    
+#output-container {
+	width: 90%;
+	display: grid;
+	grid-template-columns: repeat(1, auto);
+	grid-template-rows: repeat(1, auto);
+}
+span, h1, button {
+    font-size: 2rem;
+}
+
+#back {
+	width: 90%;
+}
+}
