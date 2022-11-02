@@ -1,7 +1,12 @@
 const actionContainer = document.getElementById("action-container");
-const actionContainerHTML = actionContainer.innerHTML;
-const input = document.getElementById("id-digits");
 const finderJoke = document.getElementById("finder");
+const actionContainerHTML = `
+<article id="id-number-container">
+	<h1>ادخل رقم البطاقة</h1>
+	<input type="text" id="id-digits">
+	<button onclick="submit()">البيانات</button>
+	<button onclick="generate_random_id()">عشوائي</button>
+	</article>`
 const governorates = {
 	"01": "القاهرة",
 	"02": "الإسكندرية",
@@ -54,19 +59,22 @@ function fillTemplate(data) {
 	return template;
 }
 
-function submit(id_input = "") {
+function submit(id_input = false) {
+	const input = document.getElementById("id-digits");
 	const id = id_input || input.value;
 	if (id.length !== 14) {
 		alert("الرقم القومى غير صحيح");
 		return;
 	}
+	input.value = "";
+
 	const century = ((+id[0] - 2) * 100 + 1900).toString().substring(0, 2);
 	const year = century + id[1] + id[2];
 	const month = id[3] + id[4];
 	const day = id[5] + id[6];
-
+	
 	const dayOfBirth = `${day}/${month}/${year}`;
-
+	
 	const governorate = governorates[id[7] + id[8]];
 	const special = id[9] + id[10] + id[11] + id[12];
 	const gender = id[12] % 2 === 0 ? "أنثى" : "ذكر";
@@ -78,7 +86,7 @@ function submit(id_input = "") {
 		special,
 		secret,
 	});
-
+	
 	loading();
 	setTimeout(() => {
 		actionContainer.innerHTML = fillTemplate({
@@ -96,6 +104,36 @@ function submit(id_input = "") {
 function back() {
 	actionContainer.innerHTML = actionContainerHTML;
 	finderJoke.innerHTML = "بطاقة فايندر - هات رقمك"
+}
+
+function generate_random_id() {
+	let century = Math.floor(Math.random() * 2) + 2;
+	century = century.toString();
+	let year = Math.floor(Math.random() * 100);
+	let month = Math.floor(Math.random() * 12) + 1;
+	let day = Math.floor(Math.random() * 28) + 1;
+	
+	day = day < 10 ? "0" + day : day;
+	month = month < 10 ? "0" + month : month;
+	year = year < 10 ? "0" + year : year;
+	
+	//gov will be random from object keys governorates
+	let gov = Object.keys(governorates)[Math.floor(Math.random() * Object.keys(governorates).length)].toString();
+	let special = Math.floor(Math.random() * 10000).toString().padStart(4, "0");
+	let secret = Math.floor(Math.random() * 10).toString();
+	let id = `${century}${year}${month}${day}${gov}${special}${secret}`;
+	// console.table({
+	// 	"id": id,
+	// 	"length": id.length,
+	// 	"century": century,
+	// 	"year": year,
+	// 	"month": month,
+	// 	"day": day,
+	// 	"gov": gov,
+	// 	"special": special,
+	// 	"secret": secret,
+	// });
+	submit(id);
 }
 
 function loading() {
