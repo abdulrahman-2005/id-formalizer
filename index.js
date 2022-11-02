@@ -50,16 +50,20 @@ function fillTemplate(data) {
                 <div class="data"><span class="title">النوع</span><span>#GENDER</span></div>
                 <div class="data"><span class="title">المحافظة</span><span>#GOVERNORATE</span></div>
                 <div class="data"><span class="title">المولود رقم</span><span>#BIRTHNUMBER</span></div>
-            </article>
+				<div class="data"><span class="title">العمر</span><span>#AGE</span></div>
+				<div class="data"><span class="title">الرقم القومي</span><span>#ID</span></div>
+				</article>
 			`
 		.replace("#DATEOFBIRTH", data.dayOfBirth)
 		.replace("#GENDER", data.gender)
 		.replace("#GOVERNORATE", data.governorate)
 		.replace("#BIRTHNUMBER", data.special)
+		.replace("#AGE", data.age)
+		.replace("#ID", data.id);
 	return template;
 }
 
-function submit(id_input = false) {
+function submit(opt="get",id_input = false) {
 	const input = document.getElementById("id-digits");
 	const id = id_input || input.value;
 	if (id.length !== 14) {
@@ -79,6 +83,20 @@ function submit(id_input = false) {
 	const special = id[9] + id[10] + id[11] + id[12];
 	const gender = id[12] % 2 === 0 ? "أنثى" : "ذكر";
 	const secret = id[13];
+	let years = currentYear - parseInt(year);
+	let months = currentMonth - parseInt(month);
+	let days = currentDay - parseInt(day);
+	if (days < 0 && years > 0) {
+		months--;
+		days += 30;
+	}
+	if (months < 0 && years > 0) {
+		years--;
+		months += 12;
+	} else if (years < 0) {
+		months = -months;}
+
+	const age = `${years} سنة و ${months} شهر و ${days} يوم`;
 	console.table({
 		dayOfBirth,
 		governorate,
@@ -95,7 +113,8 @@ function submit(id_input = false) {
 			governorate: governorate,
 			special: special,
 			secret: secret,
-			id: id,
+			id: opt === "get" ? "سر" : id,
+			age: age
 		});
 		finderJoke.innerHTML = "بطاقة فايندر - بياناتك"
 	}, 2000);
@@ -133,7 +152,7 @@ function generate_random_id() {
 	// 	"special": special,
 	// 	"secret": secret,
 	// });
-	submit(id);
+	submit(opt="random", id_input=id);
 }
 
 function loading() {
